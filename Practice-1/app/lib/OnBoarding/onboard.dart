@@ -1,3 +1,4 @@
+import 'package:app/OnBoarding/Gender.dart';
 import 'package:app/OnBoarding/LogInPage.dart';
 import 'package:app/OnBoarding/SignUpPage.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,7 @@ class _UserStatusState extends State<UserStatus> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const Signuppage()),
+                      MaterialPageRoute(builder: (context) => const Gender()),
                     );
                   },
                   child: Text(
