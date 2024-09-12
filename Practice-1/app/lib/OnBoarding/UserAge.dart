@@ -1,21 +1,23 @@
-import 'package:app/OnBoarding/UserAge.dart';
+import 'package:app/OnBoarding/Genre.dart';
+
+import 'Gender.dart';
 import 'package:flutter/material.dart';
 
-class Gender extends StatefulWidget {
-  const Gender({super.key});
+class Userage extends StatefulWidget {
+  const Userage({super.key});
 
   @override
-  State<Gender> createState() => _GenderState();
+  State<Userage> createState() => _UserageState();
 }
 
-class _GenderState extends State<Gender> {
+class _UserageState extends State<Userage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "Select your Gender",
+            "Select your Age Group",
             style: TextStyle(
               color: Colors.orange,
             ),
@@ -42,7 +44,7 @@ class _GenderState extends State<Gender> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Userage(),
+                          builder: (context) => const Genre(),
                         ),
                       );
                     },

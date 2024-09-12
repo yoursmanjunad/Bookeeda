@@ -51,7 +51,6 @@ class _UserStatusState extends State<UserStatus> {
                 ),
               ),
             ),
-
             const SizedBox(height: 20), // Spacing between the buttons
 
             // Second button takes max width
