@@ -1,23 +1,21 @@
-import 'package:app/OnBoarding/completeProfile.dart';
-
-import 'UserAge.dart';
+import 'Genre.dart';
 import 'package:flutter/material.dart';
 
-class Genre extends StatefulWidget {
-  const Genre({super.key});
+class Completeprofile extends StatefulWidget {
+  const Completeprofile({super.key});
 
   @override
-  State<Genre> createState() => _GenreState();
+  State<Completeprofile> createState() => _CompleteprofileState();
 }
 
-class _GenreState extends State<Genre> {
+class _CompleteprofileState extends State<Completeprofile> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "Select your Fav Genre",
+            "Complete your Profile",
             style: TextStyle(
               color: Colors.orange,
             ),
@@ -41,12 +39,12 @@ class _GenreState extends State<Genre> {
                   width: double.infinity,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Completeprofile(),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const (),
+                      //   ),
+                      // );
                     },
                     child: Text(
                       "Continue",
