@@ -1,6 +1,3 @@
-import 'package:app/OnBoarding/Genre.dart';
-
-import 'Gender.dart';
 import 'package:flutter/material.dart';
 
 class Userage extends StatefulWidget {
@@ -11,6 +8,17 @@ class Userage extends StatefulWidget {
 }
 
 class _UserageState extends State<Userage> {
+  int _selectedIndex = -1; // to keep track of selected button
+
+  final List<String> ageGroups = [
+    "0-10",
+    "11-20",
+    "21-30",
+    "31-40",
+    "41-50",
+    "51+"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,41 +37,81 @@ class _UserageState extends State<Userage> {
             },
           ),
         ),
-        body: Center(
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20), //
-                child: SizedBox(
-                  width: double.infinity,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Genre(),
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // 2 columns
+                    childAspectRatio: 3, // Aspect ratio of the buttons
+                    crossAxisSpacing: 15, // Horizontal spacing
+                    mainAxisSpacing: 15, // Vertical spacing
+                  ),
+                  itemCount: ageGroups.length,
+                  itemBuilder: (context, index) {
+                    bool isSelected = _selectedIndex == index;
+
+                    return TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedIndex = index; // Update the selected index
+                        });
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          isSelected ? Colors.orange : Colors.white,
                         ),
-                      );
-                    },
-                    child: Text(
-                      "Continue",
-                      style: TextStyle(
-                        color: Colors.white,
+                        padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        ),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: const BorderSide(
+                              color: Colors.orange,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    style: const ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.orange),
-                      padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(
-                            vertical: 15.0), // Adjust vertical padding
+                      child: Text(
+                        ageGroups[index],
+                        style: TextStyle(
+                          color: isSelected ? Colors.white : Colors.orange,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              if (_selectedIndex != -1) // Show the "Continue" button only when an option is selected
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                      ),
+                      onPressed: () {
+                        // Your logic for continue action here
+                      },
+                      child: const Text(
+                        "Continue",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              )
             ],
           ),
         ),

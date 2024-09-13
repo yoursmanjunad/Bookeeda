@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
 
-class Homepage extends StatefulWidget {
+class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
-  @override
-  State<Homepage> createState() => _HomepageState();
-}
-
-class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            //Showing App name!
-            "Bookeeda",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        appBar: AppBar(title: Text("Bookeeda", style: TextStyle(fontWeight: FontWeight.bold),),),
+
+        body: Column(
+
+        )
       ),
     );
   }

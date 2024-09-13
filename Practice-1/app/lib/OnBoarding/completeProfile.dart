@@ -1,3 +1,5 @@
+import 'package:app/homepage/homepage.dart';
+
 import 'Genre.dart';
 import 'package:flutter/material.dart';
 
@@ -39,12 +41,12 @@ class _CompleteprofileState extends State<Completeprofile> {
                   width: double.infinity,
                   child: TextButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const (),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Homepage(),
+                        ),
+                      );
                     },
                     child: Text(
                       "Continue",

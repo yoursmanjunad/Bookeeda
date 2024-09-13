@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/OnBoarding/onboard.dart';
 import 'package:app/redirect_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const RedirectPage(),
+            builder: (context) => const UserStatus(),
           ),
         );
       },
@@ -34,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return MaterialApp(
       home: Scaffold(
         body: Container(
-          color: Colors.green,
+          color: Colors.orange,
           child: const Center(
             child: Text(
               "Bookeeda",

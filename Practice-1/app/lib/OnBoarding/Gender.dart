@@ -1,5 +1,5 @@
-import 'package:app/OnBoarding/UserAge.dart';
 import 'package:flutter/material.dart';
+import 'UserAge.dart';
 
 class Gender extends StatefulWidget {
   const Gender({super.key});
@@ -29,59 +29,50 @@ class _GenderState extends State<Gender> {
             },
           ),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 20.0), // Padding from the appbar
-              child: RadioExample(
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RadioExample(
                 onSelectionChanged: (SigningGender? value) {
                   setState(() {
                     _selectedGender = value;
                   });
                 },
                 selectedGender: _selectedGender,
-              ), // Radio buttons immediately below the appbar
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  onPressed: _selectedGender == null
-                      ? null // Disable if no gender selected
-                      : () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Userage(),
-                            ),
-                          );
-                        },
-                  child: const Text(
-                    "Continue",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
-                      _selectedGender == null
-                          ? Colors.orangeAccent
-                          : Colors.orange, // Change color when disabled
-                    ),
-                    padding: WidgetStateProperty.all(
-                      const EdgeInsets.symmetric(
-                        vertical: 15.0, // Adjust vertical padding
+              ),
+              const Spacer(),
+              if (_selectedGender != null) // Show "Continue" only if selected
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Userage(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Continue",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
