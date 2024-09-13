@@ -1,3 +1,4 @@
+import 'package:app/OnBoarding/Genre.dart';
 import 'package:flutter/material.dart';
 
 class Userage extends StatefulWidget {
@@ -66,7 +67,8 @@ class _UserageState extends State<Userage> {
                           isSelected ? Colors.orange : Colors.white,
                         ),
                         padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                          const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 15),
                         ),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
@@ -89,7 +91,8 @@ class _UserageState extends State<Userage> {
                   },
                 ),
               ),
-              if (_selectedIndex != -1) // Show the "Continue" button only when an option is selected
+              if (_selectedIndex !=
+                  -1) // Show the "Continue" button only when an option is selected
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child: SizedBox(
@@ -100,7 +103,12 @@ class _UserageState extends State<Userage> {
                         padding: const EdgeInsets.symmetric(vertical: 15),
                       ),
                       onPressed: () {
-                        // Your logic for continue action here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Genre(),
+                          ),
+                        );
                       },
                       child: const Text(
                         "Continue",
