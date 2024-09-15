@@ -209,7 +209,7 @@ class _GenreState extends State<Genre> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const Completeprofile(),
+                            builder: (context) => UserInfoPage(),
                           ),
                         );
                       },
