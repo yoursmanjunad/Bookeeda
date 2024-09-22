@@ -24,6 +24,7 @@ dependencies:
   # Adds Cupertino icons for iOS-style icons
   cupertino_icons: ^1.0.6
   flappy_search_bar_ns: ^1.0.0
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

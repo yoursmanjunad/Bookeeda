@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
-import 'CartPage.dart';
-import 'ProductDetailPage.dart'; // Ensure this import points to the correct file
+import 'package:carousel_slider/carousel_slider.dart';
+
+import 'CategoryPage.dart';
+import 'LibraryPage.dart';
+
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: HomePage(),
+  ));
+}
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,221 +17,248 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0; // State variable to track current tab index
+  final List<String> carouselImages = [
+    'images/Product 1.jpg',
+    'images/Product 2.jpg',
+    'images/Product 3.jpg',
+  ];
+
+  final List<String> categories = ["Fantasy", "Romance", "Thriller", "Science"];
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _buildSliverAppBar(context),
-          _buildSliverList(),
+      appBar: AppBar(
+        title: Text('BookStore', style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search, color: Colors.black),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.account_circle, color: Colors.black),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => ProfilePage()));
+            },
+          ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
-    );
-  }
-
-  /// Builds the enhanced SliverAppBar with a Netflix-like top banner.
-  SliverAppBar _buildSliverAppBar(BuildContext context) {
-    return SliverAppBar(
-      expandedHeight: MediaQuery.of(context).size.height * 0.35,
-      floating: false,
-      pinned: true,
-      title: Text("Marketky"), // App name in the AppBar
-      centerTitle: true,
-      actions: [
-        IconButton(
-          icon: Icon(Icons.notifications),
-          onPressed: () {
-            // Handle notification press
-          },
-        ),
-      ],
-      flexibleSpace: FlexibleSpaceBar(
-        background: Padding(
-          padding: EdgeInsets.only(
-              top: 80), // Adding padding from the top of the AppBar
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.asset(
-                'images/Product 2.jpg', // Ensure the image path is correct
-                fit: BoxFit.cover,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.black.withOpacity(0.5),
-                      Colors.transparent,
-                    ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 40,
-                left: MediaQuery.of(context).size.width * 0.25,
-                right: MediaQuery.of(context).size.width * 0.25,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red, // Netflix-like red button
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Carousel Slider
+            Container(
+              height: MediaQuery.of(context).size.height * 0.5, // Adjust height to cover more space
+              child: CarouselSlider(
+                items: carouselImages.map((imgPath) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => DetailPage(imgPath)),
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(imgPath, fit: BoxFit.cover), // Use BoxFit.cover for better image fitting
                     ),
-                  ),
-                  onPressed: () {
-                    // Handle 'Read Now' button press
-                  },
-                  child: Text(
-                    'Read Now!',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
+                  );
+                }).toList(),
+                options: CarouselOptions(
+                  autoPlay: true,
+                  aspectRatio: 16 / 9,
+                  enlargeCenterPage: true,
+                  viewportFraction: 1.0, // Make the images fill the screen more effectively
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Builds the SliverList containing product categories.
-  SliverList _buildSliverList() {
-    return SliverList(
-      delegate: SliverChildListDelegate([
-        ProductCategory(title: 'Featured Products'),
-        ProductCategory(title: 'New Arrivals'),
-        ProductCategory(title: 'Best Sellers'),
-      ]),
-    );
-  }
-
-  /// Builds the BottomNavigationBar for navigation.
-  BottomNavigationBar _buildBottomNavigationBar() {
-    return BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-        BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-      ],
-      type: BottomNavigationBarType.fixed,
-      currentIndex: _currentIndex, // Bind currentIndex to state
-      onTap: (index) {
-        setState(() {
-          _currentIndex = index; // Update current index on tap
-        });
-      },
-    );
-  }
-}
-
-class ProductCategory extends StatelessWidget {
-  final String title;
-
-  const ProductCategory({Key? key, required this.title}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildCategoryTitle(context),
-        _buildProductList(context), // Pass context to the product list
-      ],
-    );
-  }
-
-  /// Builds the title of the product category.
-  Padding _buildCategoryTitle(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CategoryPage(title: title)),
-          );
-        },
-        child: Text(
-          title,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-
-  /// Builds a horizontal list of products.
-  Container _buildProductList(BuildContext context) {
-    return Container(
-      height: 300,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return _buildProductCard(
-              context, index); // Pass context to the product card
-        },
-      ),
-    );
-  }
-
-  /// Builds a card for each product.
-  Card _buildProductCard(BuildContext context, int index) {
-    return Card(
-      margin: EdgeInsets.all(8),
-      child: GestureDetector(
-        onTap: () {
-          // Navigate to the product detail page with only product title and price
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ProductDetailPage(
-                productTitle: 'Product ${index + 1}',
-                productPrice: 100,
-                productImagePath: 'images/Product 1.jpg',
               ),
             ),
-          );
-        },
-        child: Container(
-          width: 150,
-          height: 200,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Image.asset(
-                  'images/Product ${index + 1}.jpg', // Ensure image path is correct
-                  fit: BoxFit.cover,
+            SizedBox(height: 20),
+
+            // Categories
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: categories.map((category) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => CategoryPage(category)));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          category,
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Product ${index + 1}'),
+            ),
+            SizedBox(height: 20),
+
+            // GridView for Books
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 12, // Increase the item count for more books
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4, // Increase columns to 4
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 0.6, // Adjust aspect ratio for better image visibility
+                ),
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => BookPage(index)));
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'images/Product $index.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        selectedItemColor: Colors.orange,
+        unselectedItemColor: Colors.grey,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+
+          switch (index) {
+            case 1:
+              Navigator.push(context, MaterialPageRoute(builder: (_) => LibraryPage()));
+              break;
+            case 2:
+              Navigator.push(context, MaterialPageRoute(builder: (_) => CartPage()));
+              break;
+            case 3:
+              Navigator.push(context, MaterialPageRoute(builder: (_) => ProfilePage()));
+              break;
+          }
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.library_books),
+            label: 'Library',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
 }
 
-class CategoryPage extends StatelessWidget {
-  final String title;
-
-  const CategoryPage({Key? key, required this.title}) : super(key: key);
+// Placeholder for Detail Page
+class DetailPage extends StatelessWidget {
+  final String imagePath;
+  DetailPage(this.imagePath);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(child: Text('More products in $title category')),
+      appBar: AppBar(title: Text("Details")),
+      body: Center(child: Image.asset(imagePath)),
+    );
+  }
+}
+
+// Book Page Implementation
+class BookPage extends StatelessWidget {
+  final int bookIndex;
+  BookPage(this.bookIndex);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Book Details")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('images/Product $bookIndex.jpg'),
+            SizedBox(height: 20),
+            Text(
+              'Book Title $bookIndex',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Book description goes here...',
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Placeholder for Library Page
+// class LibraryPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: Text("Library")),
+//       body: Center(child: Text("Library Page")),
+//     );
+//   }
+// }
+
+// Placeholder for Cart Page
+class CartPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Cart")),
+      body: Center(child: Text("Cart Page")),
+    );
+  }
+}
+
+// Placeholder for Profile Page
+class ProfilePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Profile")),
+      body: Center(child: Text("Profile Page")),
     );
   }
 }
