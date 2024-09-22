@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1069164228115",
+    "project_id": "bookeeda-dfe5e",
+    "storage_bucket": "bookeeda-dfe5e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069164228115:android:da886d17ba25865f6e59e6",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaByZjBfK-t1bUs2Mdd2BVXuh9vFG2XXw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

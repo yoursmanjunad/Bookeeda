@@ -18,6 +18,8 @@ dependencies:
   image_cropper: ^1.4.1
   email_validator: ^2.0.1
   country_picker: ^2.0.11
+  cloud_firestore: ^4.0.0  # Add the latest version of Firestore
+  firebase_core: ^2.0.0
 
   # Adds Cupertino icons for iOS-style icons
   cupertino_icons: ^1.0.6
